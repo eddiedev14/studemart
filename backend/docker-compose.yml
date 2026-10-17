@@ -1,0 +1,45 @@
+name: studemart
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: studemart-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: studemart
+      POSTGRES_PASSWORD: studemart
+      POSTGRES_DB: studemart
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U studemart -d studemart']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    profiles: ['api']
+    build:
+      context: .
+      target: development
+    container_name: studemart-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_HOST: postgres
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
+      - api_node_modules:/usr/src/app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: sh -c "if [ ! -d node_modules/@nestjs/core ]; then npm ci; fi && npm run start:dev"
+
+volumes:
+  postgres_data:
+  api_node_modules:

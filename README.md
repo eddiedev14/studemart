@@ -26,7 +26,7 @@ Fuera de alcance: pasarela de pago, lugar de entrega, cancelación de pedidos, r
 studemart/
 ├── README.md
 ├── frontend/     # React + Vite + TypeScript
-└── backend/      # NestJS + PostgreSQL + Docker (se agregará en el Sprint 1)
+└── backend/      # NestJS + PostgreSQL + Docker
 ```
 
 Cada carpeta es un proyecto independiente con sus propias dependencias. No se instalan paquetes en la raíz.
@@ -44,6 +44,7 @@ Cada carpeta es un proyecto independiente con sus propias dependencias. No se in
 - Node.js 20.19+ (o 22.12+)
 - npm
 - Git
+- Docker, para PostgreSQL del backend
 
 ### Frontend
 
@@ -67,7 +68,15 @@ Scripts disponibles:
 
 ### Backend
 
-Pendiente. Las instrucciones se agregarán cuando el equipo de backend cree el proyecto.
+```bash
+cd backend
+cp .env.example .env
+npm install
+npm run docker:db
+npm run start:dev
+```
+
+Queda el esqueleto de NestJS en `http://localhost:3000/api` y Swagger en `http://localhost:3000/api/docs`. Las features están vacías y cada pareja trabaja en su carpeta. El detalle está en `backend/README.md`.
 
 ## Flujo de trabajo
 
@@ -118,6 +127,16 @@ Formato: `tipo: descripción corta en inglés, en minúscula y en imperativo`.
 - Los colores se usan desde el tema (`primary`, `secondary`, `base-100`, etc.), no con valores hexadecimales sueltos.
 - No se agregan dependencias sin acordarlo con el equipo.
 - Componentes en PascalCase, hooks con prefijo `use`, archivos de utilidades en camelCase.
+
+## Convenciones del backend
+
+- Cada pareja trabaja solo dentro de su carpeta en `backend/src/features/`. El módulo ya está importado en `app.module.ts`.
+- El controlador, el servicio, los DTO y las entidades van en esa carpeta. No se registran entidades en `database/`.
+- No se agregan dependencias sin acordarlo con el equipo.
+- Los roles son `buyer`, `entrepreneur` y `admin`, definidos en `src/common/enums/role.enum.ts`.
+- JWT, guards y decoradores los implementa una sola pareja, en `features/auth`, `common/guards` y `common/decorators`.
+
+El mapa de carpetas y el arranque están en `backend/README.md`.
 
 ## Equipo
 
