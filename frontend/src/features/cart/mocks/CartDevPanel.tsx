@@ -1,4 +1,5 @@
 import { ProductImage } from '@/features/cart/components/ProductImage'
+import { QuantityStepper } from '@/features/cart/components/QuantityStepper'
 import { useCart } from '@/features/cart/hooks/useCart'
 import { mockItems } from '@/features/cart/mocks/mockItems'
 import { formatPrice } from '@/features/cart/utils/money'
@@ -6,7 +7,7 @@ import { formatPrice } from '@/features/cart/utils/money'
 // Panel temporal para probar el carrito en el navegador: agrega productos de prueba y muestra en
 // texto cómo quedan las tiendas, los subtotales y el total.
 export function CartDevPanel() {
-  const { addItem, groups, totalUnits, total } = useCart()
+  const { addItem, updateQuantity, groups, totalUnits, total } = useCart()
 
   return (
     <section className="mx-auto max-w-2xl space-y-6 p-4">
@@ -44,10 +45,22 @@ export function CartDevPanel() {
           <div key={group.storeId}>
             <p className="font-semibold">{group.storeName}</p>
             {group.items.map((item) => (
-              <p key={item.variantId}>
-                {item.productName}
-                {item.variantName !== 'Única' && ` (${item.variantName})`} x{item.quantity}
-              </p>
+              <div key={item.variantId} className="flex items-center justify-between gap-3">
+                <p>
+                  {item.productName}
+                  {item.variantName !== 'Única' && ` (${item.variantName})`} x{item.quantity}
+                </p>
+                {/* Selector para probar el cambio de cantidad con el carrito real. */}
+                <QuantityStepper
+                  quantity={item.quantity}
+                  onChange={(quantity) => updateQuantity(item.variantId, quantity)}
+                  itemName={
+                    item.variantName !== 'Única'
+                      ? `${item.productName}, ${item.variantName}`
+                      : item.productName
+                  }
+                />
+              </div>
             ))}
             <p>Subtotal: {formatPrice(group.subtotal)}</p>
           </div>

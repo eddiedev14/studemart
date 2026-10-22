@@ -1,0 +1,22 @@
+/* Entrada del número del selector de cantidad: sube 4 px y pasa de transparente a visible. */
+@keyframes cart-quantity-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cart-quantity-in {
+  animation: cart-quantity-in 150ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Si la persona pidió menos movimiento en su dispositivo, el número cambia sin animación. */
+@media (prefers-reduced-motion: reduce) {
+  .cart-quantity-in {
+    animation: none;
+  }
+}
