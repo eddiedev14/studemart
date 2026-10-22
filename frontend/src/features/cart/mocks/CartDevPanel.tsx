@@ -1,3 +1,4 @@
+import { ProductImage } from '@/features/cart/components/ProductImage'
 import { useCart } from '@/features/cart/hooks/useCart'
 import { mockItems } from '@/features/cart/mocks/mockItems'
 import { formatPrice } from '@/features/cart/utils/money'
@@ -20,12 +21,15 @@ export function CartDevPanel() {
             key={item.variantId}
             className="flex items-center justify-between gap-4 rounded-box bg-base-200 p-3"
           >
-            <div>
-              <p className="font-semibold">{item.productName}</p>
-              {item.variantName !== 'Única' && (
-                <p className="text-sm">Detalle: {item.variantName}</p>
-              )}
-              <p className="text-sm">{formatPrice(item.price)}</p>
+            <div className="flex items-center gap-3">
+              <ProductImage src={item.imageUrl} className="size-16" />
+              <div>
+                <p className="font-semibold">{item.productName}</p>
+                {item.variantName !== 'Única' && (
+                  <p className="text-sm">Detalle: {item.variantName}</p>
+                )}
+                <p className="text-sm">{formatPrice(item.price)}</p>
+              </div>
             </div>
             <button className="btn btn-sm btn-primary" onClick={() => addItem(item)}>
               Agregar
