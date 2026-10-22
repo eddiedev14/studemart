@@ -1,0 +1,57 @@
+import { useCart } from '@/features/cart/hooks/useCart'
+import { mockItems } from '@/features/cart/mocks/mockItems'
+import { formatPrice } from '@/features/cart/utils/money'
+
+// Panel temporal para probar el carrito en el navegador: agrega productos de prueba y muestra en
+// texto cómo quedan las tiendas, los subtotales y el total.
+export function CartDevPanel() {
+  const { addItem, groups, totalUnits, total } = useCart()
+
+  return (
+    <section className="mx-auto max-w-2xl space-y-6 p-4">
+      <h1 className="text-xl font-bold">
+        Panel de prueba del carrito. Se elimina cuando exista el catálogo
+      </h1>
+
+      {/* Lista de productos de prueba. Cada clic en "Agregar" suma 1 unidad de esa variante. */}
+      <ul className="space-y-2">
+        {mockItems.map((item) => (
+          <li
+            key={item.variantId}
+            className="flex items-center justify-between gap-4 rounded-box bg-base-200 p-3"
+          >
+            <div>
+              <p className="font-semibold">{item.productName}</p>
+              {item.variantName !== 'Única' && (
+                <p className="text-sm">Detalle: {item.variantName}</p>
+              )}
+              <p className="text-sm">{formatPrice(item.price)}</p>
+            </div>
+            <button className="btn btn-sm btn-primary" onClick={() => addItem(item)}>
+              Agregar
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      {/* Resumen del carrito por tienda, para comprobar a mano los criterios de ClickUp. */}
+      <div className="space-y-4 rounded-box border border-base-300 p-3 text-sm">
+        {groups.map((group) => (
+          <div key={group.storeId}>
+            <p className="font-semibold">{group.storeName}</p>
+            {group.items.map((item) => (
+              <p key={item.variantId}>
+                {item.productName}
+                {item.variantName !== 'Única' && ` (${item.variantName})`} x{item.quantity}
+              </p>
+            ))}
+            <p>Subtotal: {formatPrice(group.subtotal)}</p>
+          </div>
+        ))}
+        <p className="font-semibold">
+          Unidades: {totalUnits} - Total: {formatPrice(total)}
+        </p>
+      </div>
+    </section>
+  )
+}
