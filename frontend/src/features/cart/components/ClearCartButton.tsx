@@ -28,7 +28,8 @@ export function ClearCartButton({ onConfirm }: { onConfirm: () => void }) {
           <h2 className="text-lg font-semibold">¿Vaciar tu carrito?</h2>
           <p className="mt-2 text-base-content/70">
             Vas a quitar {totalUnits} {totalUnits === 1 ? 'producto' : 'productos'} de{' '}
-            {groups.length} {groups.length === 1 ? 'tienda' : 'tiendas'}.
+            {groups.length} {groups.length === 1 ? 'tienda' : 'tiendas'}. Puedes deshacerlo durante
+            unos segundos.
           </p>
 
           {/* Un formulario con method="dialog" cierra la ventana al tocar cualquiera de sus

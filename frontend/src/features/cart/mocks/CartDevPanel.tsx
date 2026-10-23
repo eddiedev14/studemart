@@ -4,6 +4,7 @@ import { EmptyCart } from '@/features/cart/components/EmptyCart'
 import { ProductImage } from '@/features/cart/components/ProductImage'
 import { StoreSection } from '@/features/cart/components/StoreSection'
 import { useCart } from '@/features/cart/hooks/useCart'
+import { useCartActions } from '@/features/cart/hooks/useCartActions'
 import { mockItems } from '@/features/cart/mocks/mockItems'
 import { hasDetail } from '@/features/cart/utils/cartItem'
 import { formatPrice } from '@/features/cart/utils/money'
@@ -11,7 +12,8 @@ import { formatPrice } from '@/features/cart/utils/money'
 // Panel temporal para probar el carrito en el navegador: agrega productos de prueba y muestra en
 // texto cómo quedan las tiendas, los subtotales y el total.
 export function CartDevPanel() {
-  const { addItem, updateQuantity, removeItem, clearCart, groups } = useCart()
+  const { updateQuantity, groups } = useCart()
+  const { addItemWithNotice, removeItemWithUndo, clearCartWithUndo } = useCartActions()
 
   return (
     <section className="mx-auto max-w-2xl space-y-6 p-4">
@@ -34,7 +36,7 @@ export function CartDevPanel() {
                 <p className="text-sm">{formatPrice(item.price)}</p>
               </div>
             </div>
-            <button className="btn btn-sm btn-primary" onClick={() => addItem(item)}>
+            <button className="btn btn-sm btn-primary" onClick={() => addItemWithNotice(item)}>
               Agregar
             </button>
           </li>
@@ -53,10 +55,10 @@ export function CartDevPanel() {
                 key={group.storeId}
                 group={group}
                 onQuantityChange={(item, quantity) => updateQuantity(item.variantId, quantity)}
-                onRemove={(item) => removeItem(item.variantId)}
+                onRemove={removeItemWithUndo}
               />
             ))}
-            <ClearCartButton onConfirm={clearCart} />
+            <ClearCartButton onConfirm={clearCartWithUndo} />
             <CartSummary />
           </>
         )}
