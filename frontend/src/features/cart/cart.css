@@ -14,9 +14,21 @@
   animation: cart-quantity-in 150ms cubic-bezier(0.2, 0, 0, 1);
 }
 
-/* Si la persona pidió menos movimiento en su dispositivo, el número cambia sin animación. */
+/* Pulso del contador del ícono del carrito: crece un poco y vuelve a su tamaño. */
+@keyframes cart-badge-pulse {
+  50% {
+    transform: scale(1.25);
+  }
+}
+
+.cart-badge-pulse {
+  animation: cart-badge-pulse 200ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Si la persona pidió menos movimiento en su dispositivo, los números cambian sin animación. */
 @media (prefers-reduced-motion: reduce) {
-  .cart-quantity-in {
+  .cart-quantity-in,
+  .cart-badge-pulse {
     animation: none;
   }
 }
