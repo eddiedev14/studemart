@@ -1,5 +1,5 @@
 @theme {
-  --font-sans: "Raleway", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Raleway Variable", "Raleway", ui-sans-serif, system-ui, sans-serif;
 
   --text-display: 3.5rem;
   --text-display--line-height: 4rem;
