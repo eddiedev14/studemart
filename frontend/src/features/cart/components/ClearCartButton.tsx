@@ -43,9 +43,10 @@ export function ClearCartButton({ onConfirm }: { onConfirm: () => void }) {
           </form>
         </div>
 
-        {/* Fondo oscuro detrás de la ventana: un clic afuera también la cierra. */}
+        {/* Fondo oscuro detrás de la ventana: un clic afuera también la cierra. tabIndex={-1} saca
+            su botón, que no se ve, del recorrido con Tab; con teclado se cierra con Escape. */}
         <form method="dialog" className="modal-backdrop">
-          <button>Cerrar</button>
+          <button tabIndex={-1}>Cerrar</button>
         </form>
       </dialog>
     </>

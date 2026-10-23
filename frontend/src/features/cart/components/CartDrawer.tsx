@@ -8,13 +8,14 @@ import { useCartActions } from '@/features/cart/hooks/useCartActions'
 import type { CartItem } from '@/features/cart/types/cart'
 import { formatPrice } from '@/features/cart/utils/money'
 import { formatUnits } from '@/features/cart/utils/units'
+import { Toaster } from '@/shared/components/Toaster'
 import '@/features/cart/cart.css'
 
 // Ícono del carrito con su contador y el panel lateral que abre. Es lo único que el Navbar tiene
 // que poner. Como ClearCartButton, usa la ventana nativa del navegador.
 export function CartDrawer() {
   const { groups, totalUnits, total, updateQuantity } = useCart()
-  const { removeItemWithUndo, clearCartWithUndo } = useCartActions()
+  const { removeItemWithUndo, clearCartWithUndo } = useCartActions('cart-drawer')
 
   // Referencias al panel, para abrirlo, y a su título, para llevarle el foco al eliminar.
   const dialogRef = useRef<HTMLDialogElement>(null)
@@ -24,6 +25,13 @@ export function CartDrawer() {
   // el scroll de la lista.
   function handleRemove(item: CartItem) {
     flushSync(() => removeItemWithUndo(item))
+    headingRef.current?.focus({ preventScroll: true })
+  }
+
+  // Igual que al eliminar: vacía el carrito y deja el foco en el título, porque el botón
+  // "Vaciar carrito" desaparece junto con el pie del panel.
+  function handleClear() {
+    flushSync(() => clearCartWithUndo())
     headingRef.current?.focus({ preventScroll: true })
   }
 
@@ -100,15 +108,20 @@ export function CartDrawer() {
                     {formatPrice(total)}
                   </span>
                 </p>
-                <ClearCartButton onConfirm={clearCartWithUndo} />
+                <ClearCartButton onConfirm={handleClear} />
               </footer>
             </>
           )}
         </div>
 
-        {/* Fondo oscuro: un clic afuera del panel lo cierra. */}
+        {/* Avisos del panel. Van adentro porque el panel tapa el contenedor principal y no
+            dejaría tocar "Deshacer". */}
+        <Toaster containerId="cart-drawer" />
+
+        {/* Fondo oscuro: un clic afuera del panel lo cierra. tabIndex={-1} saca su botón, que no
+            se ve, del recorrido con Tab; con teclado el panel se cierra con Escape. */}
         <form method="dialog" className="modal-backdrop">
-          <button>Cerrar</button>
+          <button tabIndex={-1}>Cerrar</button>
         </form>
       </dialog>
     </>

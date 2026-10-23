@@ -32,14 +32,19 @@ function CloseToastButton({ closeToast }: CloseButtonProps) {
   )
 }
 
-// Contenedor único de avisos de toda la aplicación; se monta una sola vez en la raíz. La posición
-// arriba a la derecha, la pausa con el mouse o al cambiar de ventana, el botón de cerrar y no
-// cerrar al hacer clic en el aviso ya vienen así por defecto en la librería.
+// Contenedor de avisos. El principal, sin containerId, se monta una sola vez en la raíz. Una
+// ventana modal (como el panel del carrito) tapa todo lo de afuera, así que pone el suyo adentro
+// con un containerId, y solo muestra los avisos que se envían con ese mismo containerId.
+// Van abajo a la derecha para no tapar el ícono del carrito. La pausa con el mouse o al cambiar
+// de ventana, el botón de cerrar y no cerrar al hacer clic en el aviso ya vienen así por defecto
+// en la librería.
 // role="status" anuncia los avisos sin interrumpir; los de error deben pasar role: 'alert' para
 // que el lector de pantalla interrumpa.
-export function Toaster() {
+export function Toaster({ containerId }: { containerId?: string }) {
   return (
     <ToastContainer
+      containerId={containerId}
+      position="bottom-right"
       autoClose={3500}
       limit={3}
       hideProgressBar

@@ -27,6 +27,13 @@ export function CartPage() {
     headingRef.current?.focus({ preventScroll: true })
   }
 
+  // Igual que al eliminar: vacía el carrito y deja el foco en el título del estado vacío, porque
+  // el botón "Vaciar carrito" desaparece junto con la lista.
+  function handleClear() {
+    flushSync(() => clearCartWithUndo())
+    headingRef.current?.focus({ preventScroll: true })
+  }
+
   if (groups.length === 0) {
     return (
       <div className="mx-auto max-w-6xl px-10 py-10">
@@ -58,7 +65,7 @@ export function CartPage() {
               onRemove={handleRemove}
             />
           ))}
-          <ClearCartButton onConfirm={clearCartWithUndo} />
+          <ClearCartButton onConfirm={handleClear} />
         </div>
 
         <div className="sticky top-6">

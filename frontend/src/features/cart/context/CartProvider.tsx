@@ -50,9 +50,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
       dispatch({ type: 'UPDATE_QUANTITY', variantId, quantity }),
     clearCart: () => dispatch({ type: 'CLEAR_CART' }),
     restoreItem: (item, index) => dispatch({ type: 'RESTORE_ITEM', item, index }),
-    setItems: (newItems) => dispatch({ type: 'SET_ITEMS', items: newItems }),
-    // Cuántas unidades de esa variante hay en el carrito; 0 significa que no está.
-    getQuantity: (variantId) => items.find((item) => item.variantId === variantId)?.quantity ?? 0,
   }
 
   return <CartContext value={value}>{children}</CartContext>

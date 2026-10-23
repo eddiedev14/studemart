@@ -1,12 +1,11 @@
 import type { CartItem } from '@/features/cart/types/cart'
 
-export type CartAction =
+type CartAction =
   | { type: 'ADD_ITEM'; item: CartItem }
   | { type: 'REMOVE_ITEM'; variantId: string }
   | { type: 'UPDATE_QUANTITY'; variantId: string; quantity: number }
   | { type: 'CLEAR_CART' }
   | { type: 'RESTORE_ITEM'; item: CartItem; index: number }
-  | { type: 'SET_ITEMS'; items: CartItem[] }
 
 export function cartReducer(items: CartItem[], action: CartAction) {
   switch (action.type) {
@@ -45,8 +44,5 @@ export function cartReducer(items: CartItem[], action: CartAction) {
 
       return [...items.slice(0, action.index), action.item, ...items.slice(action.index)]
     }
-
-    case 'SET_ITEMS':
-      return action.items
   }
 }

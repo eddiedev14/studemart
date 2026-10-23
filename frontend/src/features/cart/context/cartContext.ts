@@ -14,8 +14,6 @@ export interface CartContextValue {
   updateQuantity: (variantId: string, quantity: number) => void
   clearCart: () => void
   restoreItem: (item: CartItem, index: number) => void
-  setItems: (items: CartItem[]) => void
-  getQuantity: (variantId: string) => number
 }
 
 // El "contexto" es un lugar compartido donde CartProvider deja el carrito para que cualquier

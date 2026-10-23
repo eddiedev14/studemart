@@ -26,8 +26,10 @@ function undoNotice(message: string, onUndo: () => void) {
 
 // Hook con las acciones del carrito que muestran un aviso. Así el panel de hoy y la página de
 // mañana no repiten esta lógica. Cambiar la cantidad no está aquí porque no lleva aviso.
-export function useCartActions() {
-  const { items, addItem, removeItem, clearCart, restoreItem, setItems } = useCart()
+// containerId dice en qué contenedor de avisos salen: el panel lateral pasa el suyo, porque
+// mientras está abierto tapa el contenedor principal.
+export function useCartActions(containerId?: string) {
+  const { items, addItem, removeItem, clearCart, restoreItem } = useCart()
 
   // Agrega el producto y avisa. El toastId por variante evita que agregar lo mismo varias veces
   // seguidas apile avisos iguales.
@@ -35,6 +37,7 @@ export function useCartActions() {
     addItem(item)
     toast.success(`Agregaste ${getItemName(item)} al carrito.`, {
       toastId: `add-${item.variantId}`,
+      containerId,
     })
   }
 
@@ -45,18 +48,20 @@ export function useCartActions() {
     removeItem(item.variantId)
     toast.info(
       undoNotice(`Quitaste ${getItemName(item)}.`, () => restoreItem(item, index)),
-      { autoClose: 6000 },
+      { autoClose: 6000, containerId },
     )
   }
 
-  // Vacía el carrito y ofrece deshacerlo. savedItems es la lista de antes de vaciar; "Deshacer" la
-  // vuelve a poner completa.
+  // Vacía el carrito y ofrece deshacerlo. savedItems es la lista de antes de vaciar; "Deshacer"
+  // devuelve cada producto a su posición sin borrar lo que el comprador agregó después.
   function clearCartWithUndo() {
     const savedItems = items
     clearCart()
     toast.info(
-      undoNotice('Vaciaste tu carrito.', () => setItems(savedItems)),
-      { autoClose: 6000 },
+      undoNotice('Vaciaste tu carrito.', () =>
+        savedItems.forEach((item, index) => restoreItem(item, index)),
+      ),
+      { autoClose: 6000, containerId },
     )
   }
 
