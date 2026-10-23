@@ -1,4 +1,5 @@
 import { CartSummary } from '@/features/cart/components/CartSummary'
+import { ClearCartButton } from '@/features/cart/components/ClearCartButton'
 import { EmptyCart } from '@/features/cart/components/EmptyCart'
 import { ProductImage } from '@/features/cart/components/ProductImage'
 import { StoreSection } from '@/features/cart/components/StoreSection'
@@ -10,7 +11,7 @@ import { formatPrice } from '@/features/cart/utils/money'
 // Panel temporal para probar el carrito en el navegador: agrega productos de prueba y muestra en
 // texto cómo quedan las tiendas, los subtotales y el total.
 export function CartDevPanel() {
-  const { addItem, updateQuantity, removeItem, groups } = useCart()
+  const { addItem, updateQuantity, removeItem, clearCart, groups } = useCart()
 
   return (
     <section className="mx-auto max-w-2xl space-y-6 p-4">
@@ -55,6 +56,7 @@ export function CartDevPanel() {
                 onRemove={(item) => removeItem(item.variantId)}
               />
             ))}
+            <ClearCartButton onConfirm={clearCart} />
             <CartSummary />
           </>
         )}
