@@ -1,13 +1,14 @@
+import { CartItemRow } from '@/features/cart/components/CartItemRow'
 import { ProductImage } from '@/features/cart/components/ProductImage'
-import { QuantityStepper } from '@/features/cart/components/QuantityStepper'
 import { useCart } from '@/features/cart/hooks/useCart'
 import { mockItems } from '@/features/cart/mocks/mockItems'
+import { hasDetail } from '@/features/cart/utils/cartItem'
 import { formatPrice } from '@/features/cart/utils/money'
 
 // Panel temporal para probar el carrito en el navegador: agrega productos de prueba y muestra en
 // texto cómo quedan las tiendas, los subtotales y el total.
 export function CartDevPanel() {
-  const { addItem, updateQuantity, groups, totalUnits, total } = useCart()
+  const { addItem, updateQuantity, removeItem, groups, totalUnits, total } = useCart()
 
   return (
     <section className="mx-auto max-w-2xl space-y-6 p-4">
@@ -26,9 +27,7 @@ export function CartDevPanel() {
               <ProductImage src={item.imageUrl} className="size-16" />
               <div>
                 <p className="font-semibold">{item.productName}</p>
-                {item.variantName !== 'Única' && (
-                  <p className="text-sm">Detalle: {item.variantName}</p>
-                )}
+                {hasDetail(item) && <p className="text-sm">Detalle: {item.variantName}</p>}
                 <p className="text-sm">{formatPrice(item.price)}</p>
               </div>
             </div>
@@ -44,24 +43,17 @@ export function CartDevPanel() {
         {groups.map((group) => (
           <div key={group.storeId}>
             <p className="font-semibold">{group.storeName}</p>
-            {group.items.map((item) => (
-              <div key={item.variantId} className="flex items-center justify-between gap-3">
-                <p>
-                  {item.productName}
-                  {item.variantName !== 'Única' && ` (${item.variantName})`} x{item.quantity}
-                </p>
-                {/* Selector para probar el cambio de cantidad con el carrito real. */}
-                <QuantityStepper
-                  quantity={item.quantity}
-                  onChange={(quantity) => updateQuantity(item.variantId, quantity)}
-                  itemName={
-                    item.variantName !== 'Única'
-                      ? `${item.productName}, ${item.variantName}`
-                      : item.productName
-                  }
+            {/* Filas de la tienda conectadas al carrito real, con una línea entre cada una. */}
+            <ul className="divide-y divide-base-300">
+              {group.items.map((item) => (
+                <CartItemRow
+                  key={item.variantId}
+                  item={item}
+                  onQuantityChange={(quantity) => updateQuantity(item.variantId, quantity)}
+                  onRemove={() => removeItem(item.variantId)}
                 />
-              </div>
-            ))}
+              ))}
+            </ul>
             <p>Subtotal: {formatPrice(group.subtotal)}</p>
           </div>
         ))}
