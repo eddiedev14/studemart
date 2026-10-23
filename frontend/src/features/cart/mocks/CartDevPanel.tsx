@@ -1,3 +1,5 @@
+import { CartSummary } from '@/features/cart/components/CartSummary'
+import { EmptyCart } from '@/features/cart/components/EmptyCart'
 import { ProductImage } from '@/features/cart/components/ProductImage'
 import { StoreSection } from '@/features/cart/components/StoreSection'
 import { useCart } from '@/features/cart/hooks/useCart'
@@ -8,7 +10,7 @@ import { formatPrice } from '@/features/cart/utils/money'
 // Panel temporal para probar el carrito en el navegador: agrega productos de prueba y muestra en
 // texto cómo quedan las tiendas, los subtotales y el total.
 export function CartDevPanel() {
-  const { addItem, updateQuantity, removeItem, groups, totalUnits, total } = useCart()
+  const { addItem, updateQuantity, removeItem, groups } = useCart()
 
   return (
     <section className="mx-auto max-w-2xl space-y-6 p-4">
@@ -40,17 +42,22 @@ export function CartDevPanel() {
 
       {/* Resumen del carrito por tienda, para comprobar a mano los criterios de ClickUp. */}
       <div className="space-y-8 rounded-box border border-base-300 p-3 text-sm">
-        {groups.map((group) => (
-          <StoreSection
-            key={group.storeId}
-            group={group}
-            onQuantityChange={(item, quantity) => updateQuantity(item.variantId, quantity)}
-            onRemove={(item) => removeItem(item.variantId)}
-          />
-        ))}
-        <p className="font-semibold">
-          Unidades: {totalUnits} - Total: {formatPrice(total)}
-        </p>
+        {/* Sin productos se ve el estado vacío; con productos, las tiendas y el resumen. */}
+        {groups.length === 0 ? (
+          <EmptyCart />
+        ) : (
+          <>
+            {groups.map((group) => (
+              <StoreSection
+                key={group.storeId}
+                group={group}
+                onQuantityChange={(item, quantity) => updateQuantity(item.variantId, quantity)}
+                onRemove={(item) => removeItem(item.variantId)}
+              />
+            ))}
+            <CartSummary />
+          </>
+        )}
       </div>
     </section>
   )
