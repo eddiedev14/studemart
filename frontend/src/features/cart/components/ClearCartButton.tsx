@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
 import { useCart } from '@/features/cart/hooks/useCart'
+import { formatUnits } from '@/features/cart/utils/units'
 
 // Botón "Vaciar carrito" con su ventana de confirmación. No vacía el carrito por su cuenta: avisa
 // con onConfirm cuando el comprador confirma.
@@ -27,9 +28,8 @@ export function ClearCartButton({ onConfirm }: { onConfirm: () => void }) {
         <div className="modal-box">
           <h2 className="text-lg font-semibold">¿Vaciar tu carrito?</h2>
           <p className="mt-2 text-base-content/70">
-            Vas a quitar {totalUnits} {totalUnits === 1 ? 'producto' : 'productos'} de{' '}
-            {groups.length} {groups.length === 1 ? 'tienda' : 'tiendas'}. Puedes deshacerlo durante
-            unos segundos.
+            Vas a quitar {formatUnits(totalUnits)} de {groups.length}{' '}
+            {groups.length === 1 ? 'tienda' : 'tiendas'}. Puedes deshacerlo durante unos segundos.
           </p>
 
           {/* Un formulario con method="dialog" cierra la ventana al tocar cualquiera de sus
