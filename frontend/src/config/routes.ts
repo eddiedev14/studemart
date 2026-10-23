@@ -14,10 +14,10 @@ export const ROUTES = {
   buyerPanel: '/comprador',
   sellerPanel: '/emprendedor',
   adminPanel: '/administradorStudemart/panel',
+  cart: '/carrito',
 
   // Pantallas de otras tareas (todavía no existen)
   catalog: '/catalogo',
-  cart: '/carrito',
   myOrders: '/mis-pedidos',
   myStore: '/mi-tienda',
   products: '/productos',

@@ -1,5 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import { ROUTES } from '@/config/routes'
+import { AppShell } from '@/components/layout/AppShell'
+import { CartPage } from '@/pages/CartPage'
 import { AdminLoginPage } from '@/pages/AdminLogin'
 import { HomePage } from '@/pages/Home'
 import { LoginPage } from '@/pages/Login'
@@ -26,6 +28,14 @@ export function AppRouter() {
 
       <Route element={<ProtectedRoute allowedRoles={['comprador']} />}>
         <Route path={ROUTES.buyerPanel} element={<BuyerPanelPage />} />
+        <Route
+          path={ROUTES.cart}
+          element={
+            <AppShell>
+              <CartPage />
+            </AppShell>
+          }
+        />
       </Route>
       <Route element={<ProtectedRoute allowedRoles={['emprendedor']} />}>
         <Route path={ROUTES.sellerPanel} element={<SellerPanelPage />} />

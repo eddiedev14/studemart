@@ -1,0 +1,75 @@
+import type { CartItem } from '@/features/cart/types/cart'
+
+// Productos de prueba hasta que exista el catálogo. Cubren una oferta (brownie), dos variantes del
+// mismo producto (camiseta S y M), un nombre largo, una imagen que no carga y un producto sin foto.
+export const mockItems: CartItem[] = [
+  {
+    variantId: 'brownie-arequipe-caja6',
+    productId: 'brownie-arequipe',
+    productName: 'Brownie de arequipe',
+    variantName: 'Caja x6',
+    storeId: '1',
+    storeName: 'Dulce Campus',
+    price: 18000,
+    originalPrice: 22000,
+    imageUrl: 'https://images.unsplash.com/photo-1564355808539-22fda35bed7e?w=400&q=80',
+    quantity: 1,
+  },
+  {
+    variantId: 'galletas-avena-unica',
+    productId: 'galletas-avena',
+    productName: 'Galletas de avena y chips de chocolate',
+    variantName: 'Única',
+    storeId: '1',
+    storeName: 'Dulce Campus',
+    price: 8000,
+    imageUrl: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&q=80',
+    quantity: 1,
+  },
+  {
+    variantId: 'camiseta-uao-s',
+    productId: 'camiseta-uao',
+    productName: 'Camiseta UAO',
+    variantName: 'S',
+    storeId: '2',
+    storeName: 'Hilo y Aguja UAO',
+    price: 45000,
+    imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80',
+    quantity: 1,
+  },
+  {
+    variantId: 'camiseta-uao-m',
+    productId: 'camiseta-uao',
+    productName: 'Camiseta UAO',
+    variantName: 'M',
+    storeId: '2',
+    storeName: 'Hilo y Aguja UAO',
+    price: 45000,
+    imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80',
+    quantity: 1,
+  },
+  {
+    variantId: 'manilla-tejida-unica',
+    productId: 'manilla-tejida',
+    productName: 'Manilla tejida',
+    variantName: 'Única',
+    storeId: '2',
+    storeName: 'Hilo y Aguja UAO',
+    price: 15000,
+    // Dirección que no existe, a propósito, para probar qué se muestra cuando la foto falla.
+    imageUrl: 'https://example.invalid/manilla-tejida.jpg',
+    quantity: 1,
+  },
+  {
+    variantId: 'apuntes-calculo-unica',
+    productId: 'apuntes-calculo',
+    productName:
+      'Apuntes de Cálculo Diferencial con ejercicios resueltos y resumen para el parcial final',
+    variantName: 'Única',
+    storeId: '3',
+    storeName: 'Apuntes Express',
+    price: 12000,
+    imageUrl: null,
+    quantity: 1,
+  },
+]

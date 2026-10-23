@@ -37,7 +37,7 @@ export const ROLE_NAV: Record<Role, RoleNavItem[]> = {
   comprador: [
     { label: 'Inicio', href: ROUTES.buyerPanel, icon: FiHome },
     { label: 'Catálogo', href: ROUTES.catalog, icon: FiSearch, soon: true },
-    { label: 'Carrito', href: ROUTES.cart, icon: FiShoppingCart, soon: true },
+    { label: 'Carrito', href: ROUTES.cart, icon: FiShoppingCart },
     { label: 'Mis pedidos', href: ROUTES.myOrders, icon: FiPackage, soon: true },
   ],
   emprendedor: [

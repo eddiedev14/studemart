@@ -5,6 +5,7 @@ import { Icon } from '@/components/ui/Icon'
 import { ROLE_HOME, ROLE_LABEL, ROLE_NAV } from '@/config/roles'
 import { ROUTES } from '@/config/routes'
 import { useAuth } from '@/features/auth'
+import { CartDrawer } from '@/features/cart/components/CartDrawer'
 import { FiLogOut, FiUser } from '@/icons'
 
 /** Navbar de la app: opciones según el rol, nombre del usuario y cerrar sesión. */
@@ -41,6 +42,7 @@ export function AppNavbar() {
       }
       actions={
         <>
+          {user.role === 'comprador' && <CartDrawer />}
           <span className="hidden items-center gap-2 text-body-sm text-neutral-content xl:flex">
             <Icon icon={FiUser} size="sm" />
             {user.name}
