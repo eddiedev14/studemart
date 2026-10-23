@@ -1,5 +1,5 @@
-import { CartItemRow } from '@/features/cart/components/CartItemRow'
 import { ProductImage } from '@/features/cart/components/ProductImage'
+import { StoreSection } from '@/features/cart/components/StoreSection'
 import { useCart } from '@/features/cart/hooks/useCart'
 import { mockItems } from '@/features/cart/mocks/mockItems'
 import { hasDetail } from '@/features/cart/utils/cartItem'
@@ -39,23 +39,14 @@ export function CartDevPanel() {
       </ul>
 
       {/* Resumen del carrito por tienda, para comprobar a mano los criterios de ClickUp. */}
-      <div className="space-y-4 rounded-box border border-base-300 p-3 text-sm">
+      <div className="space-y-8 rounded-box border border-base-300 p-3 text-sm">
         {groups.map((group) => (
-          <div key={group.storeId}>
-            <p className="font-semibold">{group.storeName}</p>
-            {/* Filas de la tienda conectadas al carrito real, con una línea entre cada una. */}
-            <ul className="divide-y divide-base-300">
-              {group.items.map((item) => (
-                <CartItemRow
-                  key={item.variantId}
-                  item={item}
-                  onQuantityChange={(quantity) => updateQuantity(item.variantId, quantity)}
-                  onRemove={() => removeItem(item.variantId)}
-                />
-              ))}
-            </ul>
-            <p>Subtotal: {formatPrice(group.subtotal)}</p>
-          </div>
+          <StoreSection
+            key={group.storeId}
+            group={group}
+            onQuantityChange={(item, quantity) => updateQuantity(item.variantId, quantity)}
+            onRemove={(item) => removeItem(item.variantId)}
+          />
         ))}
         <p className="font-semibold">
           Unidades: {totalUnits} - Total: {formatPrice(total)}
