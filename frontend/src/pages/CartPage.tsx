@@ -20,10 +20,11 @@ export function CartPage() {
 
   // Elimina el producto y deja el foco en el título, porque el botón que lo tenía desaparece.
   // flushSync hace que React actualice la pantalla antes de mover el foco: si era el último
-  // producto, el título ya es el del estado vacío.
+  // producto, el título ya es el del estado vacío. preventScroll evita que la página salte hasta
+  // el título cuando el producto eliminado estaba más abajo.
   function handleRemove(item: CartItem) {
     flushSync(() => removeItemWithUndo(item))
-    headingRef.current?.focus()
+    headingRef.current?.focus({ preventScroll: true })
   }
 
   if (groups.length === 0) {
