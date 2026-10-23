@@ -1,0 +1,9 @@
+/* Colores, esquinas, sombra y fuente del Design System para los avisos. Van sobre .Toastify y no
+   sobre :root porque la librería inyecta sus propios valores en :root después de este archivo. */
+.Toastify {
+  --toastify-color-light: var(--color-base-100);
+  --toastify-text-color-light: var(--color-base-content);
+  --toastify-toast-bd-radius: var(--radius-box);
+  --toastify-toast-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+  --toastify-font-family: var(--font-sans);
+}

@@ -1,4 +1,5 @@
 import { useEffect, useReducer, type ReactNode } from 'react'
+import { toast } from 'react-toastify'
 import { CartContext, type CartContextValue } from '@/features/cart/context/cartContext'
 import { cartReducer } from '@/features/cart/context/cartReducer'
 import { loadCart, saveCart } from '@/features/cart/utils/cartStorage'
@@ -11,9 +12,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, dispatch] = useReducer(cartReducer, [], loadCart)
 
   // Un "efecto" es código que habla con algo de afuera de React. Este guarda el carrito en el
-  // navegador cada vez que cambian los productos.
+  // navegador cada vez que cambian los productos y avisa si no se pudo. El toastId fijo evita
+  // que el mismo aviso se apile en cada cambio mientras sigue en pantalla.
   useEffect(() => {
-    saveCart(items)
+    if (!saveCart(items)) {
+      toast.error(
+        'No pudimos guardar tu carrito en este navegador. Si recargas la página, se perderá.',
+        { toastId: 'cart-save-error', role: 'alert' },
+      )
+    }
   }, [items])
 
   // Se calculan de nuevo a partir de items en cada cambio, así nunca quedan desactualizados.

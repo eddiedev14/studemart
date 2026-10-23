@@ -33,12 +33,13 @@ export function loadCart(): CartItem[] {
   }
 }
 
-// Guarda el carrito en el navegador para que sobreviva a recargar la página.
-// Si el navegador no deja guardar (modo privado o espacio lleno), sigue sin romper la página.
+// Guarda el carrito en el navegador para que sobreviva a recargar la página. Devuelve false si el
+// navegador no deja guardar (modo privado o espacio lleno), para poder avisarle al comprador.
 export function saveCart(items: CartItem[]) {
   try {
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(items))
+    return true
   } catch {
-    // Por ahora no se avisa al comprador.
+    return false
   }
 }
