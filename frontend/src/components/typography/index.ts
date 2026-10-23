@@ -1,0 +1,5 @@
+export { Heading } from './Heading'
+export { Highlight } from './Highlight'
+export { Overline } from './Overline'
+export { Text } from './Text'
+export type { TextTone } from './tones'
